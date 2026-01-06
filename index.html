@@ -3,231 +3,221 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AURA | Premium Fashion</title>
+        <title>AURA | Haute Couture</title>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
         <style>
         :root {
-            --primary: #000000;
-            --accent: #8e7f68;
-            --bg: #ffffff;
-            --light-grey: #f4f4f4;
-            --error: #d32f2f;
+            --gold: #c5a36e;
+            --dark: #121212;
+            --grey: #f4f4f4;
+            --white: #ffffff;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        body { 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            background-color: var(--bg); 
-            color: var(--primary);
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Outfit', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
 
         /* --- Navigation --- */
-        nav {
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(15px);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; border-bottom: 1px solid #eee; background: white;
-            position: sticky; top: 0; z-index: 1000;
+            padding: 15px 5%; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; letter-spacing: 5px; font-weight: 700; cursor: pointer; }
+        
+        .search-container { position: relative; width: 300px; }
+        .search-bar { width: 100%; padding: 10px 40px 10px 15px; border: 1px solid #eee; border-radius: 20px; outline: none; font-size: 0.8rem; }
+
+        /* --- Hero --- */
+        .hero {
+            height: 50vh; background: #f0f0f0; display: flex; align-items: center; justify-content: center;
+            text-align: center; margin-top: 70px; flex-direction: column;
+        }
+        .hero h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-style: italic; color: #333; }
+
+        /* --- Product Grid --- */
+        .main-container { padding: 60px 5%; max-width: 1400px; margin: auto; text-align: center; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; }
+        
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px; margin-bottom: 50px;
         }
 
-        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
+        .product-card { background: var(--white); transition: var(--transition); position: relative; text-align: left; opacity: 1; border-radius: 8px; overflow: hidden; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 
-        .nav-links button {
-            background: none; border: 1px solid transparent; padding: 8px 12px;
-            cursor: pointer; font-weight: 600; text-transform: uppercase; font-size: 0.75rem;
+        .img-holder { background: var(--grey); height: 350px; overflow: hidden; position: relative; }
+        .img-holder img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .product-card:hover img { transform: scale(1.1); }
+
+        .add-btn {
+            position: absolute; bottom: 0; width: 100%; background: var(--dark); color: white;
+            padding: 15px; border: none; cursor: pointer; font-weight: 700;
+            transform: translateY(100%); transition: var(--transition);
         }
+        .product-card:hover .add-btn { transform: translateY(0); }
 
-        .btn-outline { border: 1.5px solid var(--primary) !important; margin-left: 5px; border-radius: 4px; }
+        .card-meta { padding: 15px; }
+        .card-meta h3 { font-size: 1rem; font-weight: 600; margin-bottom: 5px; }
+        .card-meta .price { color: var(--gold); font-weight: 700; }
 
-        /* --- View System --- */
-        .view { display: none; padding: 30px 5%; animation: fadeIn 0.4s ease; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* --- Responsive Product Layout --- */
-        .product-container { 
-            display: grid; 
-            grid-template-columns: 1.2fr 1fr; 
-            gap: 40px; 
-            max-width: 1100px; 
-            margin: auto; 
+        /* --- Buttons --- */
+        .view-btn {
+            padding: 15px 40px; border: 1px solid var(--dark); background: none;
+            cursor: pointer; font-weight: 700; letter-spacing: 2px; transition: 0.3s; margin: 10px;
         }
+        .view-btn:hover { background: var(--dark); color: white; }
 
-        .image-stage { background: var(--light-grey); padding: 20px; border-radius: 8px; text-align: center; }
-        #main-prod-img { width: 100%; height: auto; max-height: 450px; object-fit: contain; transition: 0.3s; }
-
-        .price { font-size: 1.8rem; margin: 15px 0; font-weight: 300; color: #111; }
-
-        .thumbnails { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; 
-            margin-top: 20px; 
+        /* --- Sidebar --- */
+        .cart-side {
+            position: fixed; top: 0; right: -100%; width: 400px; height: 100%;
+            background: white; z-index: 2000; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: var(--transition); padding: 40px;
         }
-        .thumb { 
-            width: 100%; aspect-ratio: 3/4; object-fit: cover; 
-            cursor: pointer; border: 2px solid transparent; border-radius: 4px; opacity: 0.7;
-        }
-        .thumb.active { border-color: var(--primary); opacity: 1; }
+        .cart-side.open { right: 0; }
+        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
 
-        /* --- Forms & Buttons --- */
-        .main-btn {
-            background: var(--primary); color: white; padding: 16px; border: none;
-            width: 100%; font-size: 0.9rem; cursor: pointer; letter-spacing: 2px; font-weight: bold;
-            border-radius: 4px; transition: 0.2s;
-        }
-        .main-btn:active { transform: scale(0.98); }
+        /* --- Auth --- */
+        .auth-screen { display: none; padding: 120px 5%; min-height: 100vh; background: var(--grey); }
+        .auth-screen.active { display: block; }
+        .auth-box { max-width: 400px; margin: auto; background: white; padding: 40px; border-radius: 12px; }
 
-        .form-card { max-width: 400px; margin: auto; padding: 25px; border: 1px solid #eee; border-radius: 8px; }
-        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
-
-        .error-msg { color: var(--error); font-size: 0.75rem; margin-bottom: 10px; display: none; }
-        #cart-count { background: var(--accent); color: white; padding: 2px 6px; border-radius: 50%; font-size: 9px; vertical-align: top; }
-
-        /* --- RESPONSIVE MEDIA QUERIES --- */
-        @media (max-width: 800px) {
-            .product-container { grid-template-columns: 1fr; }
-            .thumbnails { grid-template-columns: repeat(6, 1fr); }
-        }
-
-        @media (max-width: 320px) {
-            nav { padding: 10px 2%; }
-            .logo { font-size: 1rem; }
-            .thumbnails { grid-template-columns: repeat(3, 1fr); }
-            .main-btn { font-size: 0.75rem; }
+        @media (max-width: 700px) {
+            .search-container { display: none; }
+            .cart-side { width: 100%; }
         }
         </style>
     </head>
     <body>
-        <nav>
-            <div class="logo" onclick="showView('shop-view')">AURA</div>
-            <div class="nav-links">
-                <button onclick="showView('login-view')">Login</button>
-                <button onclick="showView('checkout-view')" class="btn-outline">
-                    Bag
-                    <span id="cart-count">0</span>
+        <header>
+            <div class="logo" onclick="location.reload()">AURA</div>
+            <div class="search-container">
+                <input
+                    type="text"
+                    class="search-bar"
+                    placeholder="Search collection..."
+                    onkeyup="searchItems(this.value)"
+                >
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn" onclick="openAuth()">Account</button>
+                <button class="nav-btn" onclick="toggleCart()">
+                    Bag (
+                    <span id="bag-count">0</span>
+                    )
                 </button>
             </div>
-        </nav>
-        <section id="shop-view" class="view active">
-            <div class="product-container">
-                <div class="image-stage">
-                    <img id="main-prod-img" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800">
-                    <div class="thumbnails">
-                        <img class="thumb active" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" onclick="updateProduct('Essential White Tee', 'Rs. 2,400', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400" onclick="updateProduct('Midnight Black Tee', 'Rs. 2,400', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" onclick="updateProduct('Aura Sport Runner', 'Rs. 12,500', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=400" onclick="updateProduct('Urban Core Sneakers', 'Rs. 9,800', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400" onclick="updateProduct('Casual Slide Sandal', 'Rs. 3,200', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400" onclick="updateProduct('Premium Leather Slide', 'Rs. 500', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" onclick="updateProduct('Heritage Jacket', 'Rs. 8,900', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" onclick="updateProduct('Graphic Hoodie', 'Rs. 5,500', this)">
-                    </div>
-                </div>
-                <div>
-                    <h1 id="prod-title" style="font-size: 2.2rem; margin-top: 0;">Essential White Tee</h1>
-                    <div class="price" id="prod-price">Rs. 2,400</div>
-                    <p style="color: #666; line-height: 1.6; margin-bottom: 25px; font-size: 0.95rem;">
-                        Handpicked premium materials designed for long-lasting wear. Our collection focuses on minimalist style and peak comfort.
-                    </p>
-                    <button class="main-btn" onclick="addToBag()">ADD TO BAG</button>
+        </header>
+        <main id="home-page">
+            <section class="hero">
+                <p style="letter-spacing: 5px; color: var(--gold); margin-bottom: 15px;">NEW SEASON</p>
+                <h2>Luxury Redefined</h2>
+            </section>
+            <div class="main-container">
+                <h2 class="section-title">The Gallery</h2>
+                <div class="product-grid" id="grid"></div>
+                <div id="view-all-area">
+                    <button class="view-btn" id="view-all-btn" onclick="showAll()">EXPLORE ALL ITEMS</button>
                 </div>
             </div>
-        </section>
-        <section id="login-view" class="view">
-            <div class="form-card">
-                <h2>SIGN IN</h2>
-                <div id="login-error" class="error-msg">Email and password required.</div>
-                <input type="email" id="login-email" placeholder="Email Address">
-                <input type="password" id="login-pass" placeholder="Password">
-                <button class="main-btn" onclick="validateLogin()">LOGIN</button>
-                <p style="text-align: center; font-size: 0.8rem; margin-top: 15px;">
-                    New?
-                    <a href="#" onclick="showView('signup-view')">Create Account</a>
-                </p>
+        </main>
+        <div class="cart-side" id="cart-drawer">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                <h3 style="letter-spacing: 2px;">YOUR BAG</h3>
+                <button onclick="toggleCart()" style="border:none; background:none; cursor:pointer; font-weight:bold;">✕</button>
             </div>
-        </section>
-        <section id="signup-view" class="view">
-            <div class="form-card">
-                <h2>JOIN AURA</h2>
-                <div id="signup-error" class="error-msg">Please fill all fields.</div>
-                <input type="text" id="sign-name" placeholder="Full Name">
-                <input type="email" id="sign-email" placeholder="Email Address">
-                <input type="password" id="sign-pass" placeholder="Password">
-                <button class="main-btn" onclick="validateSignup()">CREATE ACCOUNT</button>
+            <div id="cart-list"></div>
+            <div style="margin-top:auto; border-top:2px solid #000; padding-top:20px;">
+                <div style="display:flex; justify-content:space-between; font-weight:700;">
+                    <span>Total Amount</span>
+                    <span id="cart-total">Rs. 0</span>
+                </div>
+                <button class="view-btn" style="width:100%; margin:20px 0; background:var(--dark); color:white;" onclick="alert('Proceeding to Gateway...')">SECURE CHECKOUT</button>
             </div>
-        </section>
-        <section id="checkout-view" class="view">
-            <div class="product-container">
-                <div class="form-card" style="margin:0; width: 100%;">
-                    <h2>SHIPPING</h2>
-                    <div id="ship-error" class="error-msg">Please provide shipping details.</div>
-                    <input type="text" id="ship-name" placeholder="Full Name">
-                    <input type="text" id="ship-addr" placeholder="Full Address">
-                    <input type="text" id="ship-city" placeholder="City">
-                    <button class="main-btn" onclick="validateOrder()">PLACE ORDER</button>
-                </div>
-                <div style="background: var(--light-grey); padding: 20px; border-radius: 8px;">
-                    <h3>SUMMARY</h3>
-                    <div id="cart-list" style="font-size: 0.85rem;">Bag is empty</div>
-                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
-                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
-                        <span>Total</span>
-                        <span id="cart-total">Rs. 0</span>
-                    </div>
-                </div>
+        </div>
+        <section id="login-view" class="auth-screen">
+            <div class="auth-box">
+                <h2 style="margin-bottom:20px; font-family:'Playfair Display';">Atelier Login</h2>
+                <input type="email" placeholder="Email Address">
+                <input type="password" placeholder="Password">
+                <button class="view-btn" style="width:100%; background:var(--dark); color:white; margin:0;" onclick="location.reload()">SIGN IN</button>
             </div>
         </section>
         <script>
-        let bag = [];
+        // UPDATED STABLE IMAGE LINKS
+        const allItems = [
+            { id: 1, name: "Premium White Tee", price: 3500, img: "https://images.pexels.com/photos/4066293/pexels-photo-4066293.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 2, name: "Midnight Cotton Hoodie", price: 6500, img: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 3, name: "Aura Sport Sneakers", price: 12000, img: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 4, name: "Urban Leather Slides", price: 4500, img: "https://images.pexels.com/photos/1661471/pexels-photo-1661471.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 5, name: "Heritage Bomber Jacket", price: 15000, img: "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 6, name: "Modern Chrono Gold", price: 25000, img: "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 7, name: "Canvas Travel Bag", price: 9500, img: "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { id: 8, name: "Limited Sunshades", price: 8000, img: "https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        ];
 
-        function showView(id) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
+        let cart = [];
+        let limit = 4;
+
+        function render(data = allItems.slice(0, limit)) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = data.map(item => `
+                <div class="product-card">
+                    <div class="img-holder">
+                        <img src="${item.img}" alt="${item.name}">
+                        <button class="add-btn" onclick="addToCart(${item.id})">ADD TO BAG</button>
+                    </div>
+                    <div class="card-meta">
+                        <h3>${item.name}</h3>
+                        <p class="price">Rs. ${item.price.toLocaleString()}</p>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function validateLogin() {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            if (!email || !pass) { document.getElementById('login-error').style.display = 'block'; }
-            else { alert("Login successful!"); showView('shop-view'); }
+        function showAll() {
+            limit = allItems.length;
+            render();
+            document.getElementById('view-all-area').style.display = 'none';
         }
 
-        function validateSignup() {
-            const name = document.getElementById('sign-name').value;
-            const email = document.getElementById('sign-email').value;
-            if (!name || !email) { document.getElementById('signup-error').style.display = 'block'; }
-            else { alert("Account created!"); showView('shop-view'); }
+        function searchItems(val) {
+            const filtered = allItems.filter(i => i.name.toLowerCase().includes(val.toLowerCase()));
+            render(filtered);
+            document.getElementById('view-all-area').style.display = 'none';
         }
 
-        function validateOrder() {
-            const name = document.getElementById('ship-name').value;
-            if (bag.length === 0) return alert("Your bag is empty!");
-            if (!name) { document.getElementById('ship-error').style.display = 'block'; }
-            else { alert("Order placed successfully!"); location.reload(); }
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('open');
         }
 
-        function updateProduct(name, price, el) {
-            document.getElementById('prod-title').innerText = name;
-            document.getElementById('prod-price').innerText = price;
-            document.getElementById('main-prod-img').src = el.src.replace('w=400', 'w=800');
-            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function addToBag() {
-            const name = document.getElementById('prod-title').innerText;
-            const price = document.getElementById('prod-price').innerText;
-            bag.push({name, price});
-            document.getElementById('cart-count').innerText = bag.length;
+        function addToCart(id) {
+            const item = allItems.find(p => p.id === id);
+            cart.push(item);
+            document.getElementById('bag-count').innerText = cart.length;
             
             const list = document.getElementById('cart-list');
-            list.innerHTML = bag.map(i => `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${i.name}</span><span>${i.price}</span></div>`).join('');
+            list.innerHTML = cart.map(i => `
+                <div class="cart-item">
+                    <img src="${i.img}">
+                    <div><p style="font-size:0.8rem;">${i.name}</p><b>Rs. ${i.price}</b></div>
+                </div>
+            `).join('');
             
-            let total = bag.reduce((s, i) => s + parseInt(i.price.replace(/[^0-9]/g, '')), 0);
+            const total = cart.reduce((s, i) => s + i.price, 0);
             document.getElementById('cart-total').innerText = "Rs. " + total.toLocaleString();
-            alert(name + " added to bag!");
+            if(!document.getElementById('cart-drawer').classList.contains('open')) toggleCart();
         }
+
+        function openAuth() {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('login-view').classList.add('active');
+        }
+
+        window.onload = () => render();
         </script>
     </body>
 </html>
