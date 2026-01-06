@@ -13,7 +13,13 @@
             --error: #d32f2f;
         }
 
-        body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--primary); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            background-color: var(--bg); 
+            color: var(--primary);
+            -webkit-font-smoothing: antialiased;
+        }
 
         /* --- Navigation --- */
         nav {
@@ -22,56 +28,83 @@
             position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo { font-size: 1.6rem; font-weight: 900; letter-spacing: 6px; cursor: pointer; }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
 
         .nav-links button {
-            background: none; border: 1px solid transparent; padding: 10px 18px;
-            cursor: pointer; font-weight: 600; text-transform: uppercase; font-size: 0.8rem;
+            background: none; border: 1px solid transparent; padding: 8px 12px;
+            cursor: pointer; font-weight: 600; text-transform: uppercase; font-size: 0.75rem;
         }
 
-        .btn-outline { border: 1.5px solid var(--primary) !important; margin-left: 10px; }
+        .btn-outline { border: 1.5px solid var(--primary) !important; margin-left: 5px; border-radius: 4px; }
 
-        /* --- Views --- */
-        .view { display: none; padding: 50px 5%; animation: fadeIn 0.4s ease; }
+        /* --- View System --- */
+        .view { display: none; padding: 30px 5%; animation: fadeIn 0.4s ease; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- Product Layout --- */
-        .product-container { display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; max-width: 1100px; margin: auto; }
-        .image-stage { background: var(--light-grey); padding: 30px; border-radius: 4px; text-align: center; }
-        #main-prod-img { width: 100%; height: 500px; object-fit: contain; }
-        .price { font-size: 2rem; margin: 15px 0; font-weight: 300; }
+        /* --- Responsive Product Layout --- */
+        .product-container { 
+            display: grid; 
+            grid-template-columns: 1.2fr 1fr; 
+            gap: 40px; 
+            max-width: 1100px; 
+            margin: auto; 
+        }
 
-        .thumbnails { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
-        .thumb { width: 60px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; }
+        .image-stage { background: var(--light-grey); padding: 20px; border-radius: 8px; text-align: center; }
+        #main-prod-img { width: 100%; height: auto; max-height: 450px; object-fit: contain; }
+
+        .price { font-size: 1.8rem; margin: 15px 0; font-weight: 300; }
+
+        .thumbnails { display: flex; gap: 8px; margin-top: 15px; justify-content: center; flex-wrap: wrap; }
+        .thumb { width: 50px; height: 65px; object-fit: cover; cursor: pointer; border: 2px solid transparent; border-radius: 4px; }
         .thumb.active { border-color: var(--primary); }
 
         /* --- Buttons & Forms --- */
         .main-btn {
-            background: var(--primary); color: white; padding: 18px; border: none;
-            width: 100%; font-size: 1rem; cursor: pointer; letter-spacing: 2px; font-weight: bold;
+            background: var(--primary); color: white; padding: 16px; border: none;
+            width: 100%; font-size: 0.9rem; cursor: pointer; letter-spacing: 2px; font-weight: bold;
+            border-radius: 4px; transition: 0.2s;
+        }
+        .main-btn:active { transform: scale(0.98); }
+
+        .form-card { max-width: 400px; margin: auto; padding: 25px; border: 1px solid #eee; border-radius: 8px; }
+        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; /* Prevents auto-zoom on iOS */ }
+
+        .error-msg { color: var(--error); font-size: 0.75rem; margin-bottom: 10px; display: none; }
+        #cart-count { background: var(--accent); color: white; padding: 2px 6px; border-radius: 50%; font-size: 9px; vertical-align: top; }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+
+        /* Tablet & Mobile (under 800px) */
+        @media (max-width: 800px) {
+            .product-container { grid-template-columns: 1fr; gap: 30px; }
+            .logo { letter-spacing: 2px; }
         }
 
-        .form-card { max-width: 400px; margin: auto; padding: 40px; border: 1px solid #eee; border-radius: 8px; }
-        .form-card h2 { text-align: center; margin-bottom: 25px; letter-spacing: 2px; }
-        
-        input { 
-            width: 100%; padding: 14px; margin-bottom: 10px; 
-            border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; 
+        /* Small Mobile (under 450px) */
+        @media (max-width: 450px) {
+            nav { padding: 10px 3%; }
+            .nav-links button { padding: 6px 8px; font-size: 0.7rem; }
+            .logo { font-size: 1.1rem; }
+            h1 { font-size: 1.8rem !important; }
+            .price { font-size: 1.5rem; }
         }
 
-        .error-msg { color: var(--error); font-size: 0.8rem; margin-bottom: 15px; display: none; }
-
-        #cart-count { background: var(--accent); color: white; padding: 2px 7px; border-radius: 50%; font-size: 10px; vertical-align: top; }
+        /* Extra Small Mobile (300px) */
+        @media (max-width: 320px) {
+            .nav-links { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+            .form-card { padding: 15px; }
+            .main-btn { font-size: 0.8rem; padding: 12px; }
+        }
         </style>
     </head>
     <body>
         <nav>
             <div class="logo" onclick="showView('shop-view')">AURA</div>
             <div class="nav-links">
-                <button onclick="showView('login-view')">Account</button>
-                <button class="btn-outline" onclick="showView('signup-view')">Join</button>
-                <button onclick="showView('checkout-view')" style="margin-left: 15px;">
+                <button onclick="showView('login-view')">Login</button>
+                <button onclick="showView('checkout-view')" class="btn-outline">
                     Bag
                     <span id="cart-count">0</span>
                 </button>
@@ -88,9 +121,9 @@
                     </div>
                 </div>
                 <div>
-                    <h1 id="prod-title" style="font-size: 2.5rem;">Essential Tee</h1>
+                    <h1 id="prod-title" style="font-size: 2.5rem; margin-top: 0;">Essential Tee</h1>
                     <div class="price" id="prod-price">Rs. 2,400</div>
-                    <p style="color: #666; line-height: 1.8; margin-bottom: 30px;">Premium quality fabric designed for a perfect fit.</p>
+                    <p style="color: #666; line-height: 1.6; margin-bottom: 25px; font-size: 0.95rem;">Premium heavy-weight cotton. Sustainably sourced and built for longevity.</p>
                     <button class="main-btn" onclick="addToBag()">ADD TO BAG</button>
                 </div>
             </div>
@@ -98,16 +131,19 @@
         <section id="login-view" class="view">
             <div class="form-card">
                 <h2>SIGN IN</h2>
-                <div id="login-error" class="error-msg">Please enter your email and password.</div>
+                <div id="login-error" class="error-msg">Please enter your details.</div>
                 <input type="email" id="login-email" placeholder="Email Address">
                 <input type="password" id="login-pass" placeholder="Password">
                 <button class="main-btn" onclick="validateLogin()">LOGIN</button>
+                <p style="text-align: center; font-size: 0.8rem; margin-top: 15px;">New here?
+                    <a href="#" onclick="showView('signup-view')">Create Account</a>
+                </p>
             </div>
         </section>
         <section id="signup-view" class="view">
             <div class="form-card">
-                <h2>CREATE ACCOUNT</h2>
-                <div id="signup-error" class="error-msg">All fields are required to join.</div>
+                <h2>JOIN AURA</h2>
+                <div id="signup-error" class="error-msg">All fields are required.</div>
                 <input type="text" id="sign-name" placeholder="Full Name">
                 <input type="email" id="sign-email" placeholder="Email Address">
                 <input type="password" id="sign-pass" placeholder="Password">
@@ -118,16 +154,16 @@
             <div class="product-container">
                 <div class="form-card" style="margin:0; width: 100%;">
                     <h2>SHIPPING</h2>
-                    <div id="ship-error" class="error-msg">Please provide your full shipping address.</div>
+                    <div id="ship-error" class="error-msg">Shipping details required.</div>
                     <input type="text" id="ship-name" placeholder="Receiver Name">
-                    <input type="text" id="ship-addr" placeholder="Street Address">
+                    <input type="text" id="ship-addr" placeholder="Full Address">
                     <input type="text" id="ship-city" placeholder="City">
                     <button class="main-btn" onclick="validateOrder()">PLACE ORDER</button>
                 </div>
-                <div style="background: var(--light-grey); padding: 30px;">
+                <div style="background: var(--light-grey); padding: 20px; border-radius: 8px;">
                     <h3>SUMMARY</h3>
-                    <div id="cart-list">Bag is empty</div>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+                    <div id="cart-list" style="font-size: 0.85rem;">Bag is empty</div>
+                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
                     <div style="display: flex; justify-content: space-between; font-weight: bold;">
                         <span>Total</span>
                         <span id="cart-total">Rs. 0</span>
@@ -142,44 +178,30 @@
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
             document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        // VALIDATION LOGIC
         function validateLogin() {
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-pass').value;
-            if (!email || !pass) {
-                document.getElementById('login-error').style.display = 'block';
-            } else {
-                alert("Welcome back, " + email);
-                showView('shop-view');
-            }
+            if (!email || !pass) { document.getElementById('login-error').style.display = 'block'; }
+            else { alert("Welcome back!"); showView('shop-view'); }
         }
 
         function validateSignup() {
             const name = document.getElementById('sign-name').value;
             const email = document.getElementById('sign-email').value;
-            if (!name || !email) {
-                document.getElementById('signup-error').style.display = 'block';
-            } else {
-                alert("Account created for " + name);
-                showView('shop-view');
-            }
+            if (!name || !email) { document.getElementById('signup-error').style.display = 'block'; }
+            else { alert("Account created!"); showView('shop-view'); }
         }
 
         function validateOrder() {
             const name = document.getElementById('ship-name').value;
-            const addr = document.getElementById('ship-addr').value;
-            if (bag.length === 0) return alert("Your bag is empty!");
-            if (!name || !addr) {
-                document.getElementById('ship-error').style.display = 'block';
-            } else {
-                alert("Order Placed Successfully!");
-                location.reload();
-            }
+            if (bag.length === 0) return alert("Bag is empty!");
+            if (!name) { document.getElementById('ship-error').style.display = 'block'; }
+            else { alert("Order Success!"); location.reload(); }
         }
 
-        // PRODUCT & CART LOGIC
         function updateProduct(name, price, el) {
             document.getElementById('prod-title').innerText = name;
             document.getElementById('prod-price').innerText = price;
