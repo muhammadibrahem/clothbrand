@@ -52,15 +52,23 @@
         }
 
         .image-stage { background: var(--light-grey); padding: 20px; border-radius: 8px; text-align: center; }
-        #main-prod-img { width: 100%; height: auto; max-height: 450px; object-fit: contain; }
+        #main-prod-img { width: 100%; height: auto; max-height: 450px; object-fit: contain; transition: 0.3s; }
 
-        .price { font-size: 1.8rem; margin: 15px 0; font-weight: 300; }
+        .price { font-size: 1.8rem; margin: 15px 0; font-weight: 300; color: #111; }
 
-        .thumbnails { display: flex; gap: 8px; margin-top: 15px; justify-content: center; flex-wrap: wrap; }
-        .thumb { width: 50px; height: 65px; object-fit: cover; cursor: pointer; border: 2px solid transparent; border-radius: 4px; }
-        .thumb.active { border-color: var(--primary); }
+        .thumbnails { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+            margin-top: 20px; 
+        }
+        .thumb { 
+            width: 100%; aspect-ratio: 3/4; object-fit: cover; 
+            cursor: pointer; border: 2px solid transparent; border-radius: 4px; opacity: 0.7;
+        }
+        .thumb.active { border-color: var(--primary); opacity: 1; }
 
-        /* --- Buttons & Forms --- */
+        /* --- Forms & Buttons --- */
         .main-btn {
             background: var(--primary); color: white; padding: 16px; border: none;
             width: 100%; font-size: 0.9rem; cursor: pointer; letter-spacing: 2px; font-weight: bold;
@@ -69,33 +77,22 @@
         .main-btn:active { transform: scale(0.98); }
 
         .form-card { max-width: 400px; margin: auto; padding: 25px; border: 1px solid #eee; border-radius: 8px; }
-        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; /* Prevents auto-zoom on iOS */ }
+        input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
 
         .error-msg { color: var(--error); font-size: 0.75rem; margin-bottom: 10px; display: none; }
         #cart-count { background: var(--accent); color: white; padding: 2px 6px; border-radius: 50%; font-size: 9px; vertical-align: top; }
 
         /* --- RESPONSIVE MEDIA QUERIES --- */
-
-        /* Tablet & Mobile (under 800px) */
         @media (max-width: 800px) {
-            .product-container { grid-template-columns: 1fr; gap: 30px; }
-            .logo { letter-spacing: 2px; }
+            .product-container { grid-template-columns: 1fr; }
+            .thumbnails { grid-template-columns: repeat(6, 1fr); }
         }
 
-        /* Small Mobile (under 450px) */
-        @media (max-width: 450px) {
-            nav { padding: 10px 3%; }
-            .nav-links button { padding: 6px 8px; font-size: 0.7rem; }
-            .logo { font-size: 1.1rem; }
-            h1 { font-size: 1.8rem !important; }
-            .price { font-size: 1.5rem; }
-        }
-
-        /* Extra Small Mobile (300px) */
         @media (max-width: 320px) {
-            .nav-links { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-            .form-card { padding: 15px; }
-            .main-btn { font-size: 0.8rem; padding: 12px; }
+            nav { padding: 10px 2%; }
+            .logo { font-size: 1rem; }
+            .thumbnails { grid-template-columns: repeat(3, 1fr); }
+            .main-btn { font-size: 0.75rem; }
         }
         </style>
     </head>
@@ -115,15 +112,22 @@
                 <div class="image-stage">
                     <img id="main-prod-img" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800">
                     <div class="thumbnails">
-                        <img class="thumb active" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" onclick="updateProduct('Essential Tee', 'Rs. 2,400', this)">
-                        <img class="thumb" src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" onclick="updateProduct('Canvas Jacket', 'Rs. 8,900', this)">
+                        <img class="thumb active" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" onclick="updateProduct('Essential White Tee', 'Rs. 2,400', this)">
+                        <img class="thumb" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400" onclick="updateProduct('Midnight Black Tee', 'Rs. 2,400', this)">
+                        <img class="thumb" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" onclick="updateProduct('Aura Sport Runner', 'Rs. 12,500', this)">
+                        <img class="thumb" src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=400" onclick="updateProduct('Urban Core Sneakers', 'Rs. 9,800', this)">
+                        <img class="thumb" src="https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400" onclick="updateProduct('Casual Slide Sandal', 'Rs. 3,200', this)">
+                        <img class="thumb" src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400" onclick="updateProduct('Premium Leather Slide', 'Rs. 5,500', this)">
+                        <img class="thumb" src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" onclick="updateProduct('Heritage Jacket', 'Rs. 8,900', this)">
                         <img class="thumb" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" onclick="updateProduct('Graphic Hoodie', 'Rs. 5,500', this)">
                     </div>
                 </div>
                 <div>
-                    <h1 id="prod-title" style="font-size: 2.5rem; margin-top: 0;">Essential Tee</h1>
+                    <h1 id="prod-title" style="font-size: 2.2rem; margin-top: 0;">Essential White Tee</h1>
                     <div class="price" id="prod-price">Rs. 2,400</div>
-                    <p style="color: #666; line-height: 1.6; margin-bottom: 25px; font-size: 0.95rem;">Premium heavy-weight cotton. Sustainably sourced and built for longevity.</p>
+                    <p style="color: #666; line-height: 1.6; margin-bottom: 25px; font-size: 0.95rem;">
+                        Handpicked premium materials designed for long-lasting wear. Our collection focuses on minimalist style and peak comfort.
+                    </p>
                     <button class="main-btn" onclick="addToBag()">ADD TO BAG</button>
                 </div>
             </div>
@@ -131,11 +135,11 @@
         <section id="login-view" class="view">
             <div class="form-card">
                 <h2>SIGN IN</h2>
-                <div id="login-error" class="error-msg">Please enter your details.</div>
+                <div id="login-error" class="error-msg">Email and password required.</div>
                 <input type="email" id="login-email" placeholder="Email Address">
                 <input type="password" id="login-pass" placeholder="Password">
                 <button class="main-btn" onclick="validateLogin()">LOGIN</button>
-                <p style="text-align: center; font-size: 0.8rem; margin-top: 15px;">New here?
+                <p style="text-align: center; font-size: 0.8rem; margin-top: 15px;">New?
                     <a href="#" onclick="showView('signup-view')">Create Account</a>
                 </p>
             </div>
@@ -143,7 +147,7 @@
         <section id="signup-view" class="view">
             <div class="form-card">
                 <h2>JOIN AURA</h2>
-                <div id="signup-error" class="error-msg">All fields are required.</div>
+                <div id="signup-error" class="error-msg">Please fill all fields.</div>
                 <input type="text" id="sign-name" placeholder="Full Name">
                 <input type="email" id="sign-email" placeholder="Email Address">
                 <input type="password" id="sign-pass" placeholder="Password">
@@ -154,8 +158,8 @@
             <div class="product-container">
                 <div class="form-card" style="margin:0; width: 100%;">
                     <h2>SHIPPING</h2>
-                    <div id="ship-error" class="error-msg">Shipping details required.</div>
-                    <input type="text" id="ship-name" placeholder="Receiver Name">
+                    <div id="ship-error" class="error-msg">Please provide shipping details.</div>
+                    <input type="text" id="ship-name" placeholder="Full Name">
                     <input type="text" id="ship-addr" placeholder="Full Address">
                     <input type="text" id="ship-city" placeholder="City">
                     <button class="main-btn" onclick="validateOrder()">PLACE ORDER</button>
@@ -185,7 +189,7 @@
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-pass').value;
             if (!email || !pass) { document.getElementById('login-error').style.display = 'block'; }
-            else { alert("Welcome back!"); showView('shop-view'); }
+            else { alert("Login successful!"); showView('shop-view'); }
         }
 
         function validateSignup() {
@@ -197,9 +201,9 @@
 
         function validateOrder() {
             const name = document.getElementById('ship-name').value;
-            if (bag.length === 0) return alert("Bag is empty!");
+            if (bag.length === 0) return alert("Your bag is empty!");
             if (!name) { document.getElementById('ship-error').style.display = 'block'; }
-            else { alert("Order Success!"); location.reload(); }
+            else { alert("Order placed successfully!"); location.reload(); }
         }
 
         function updateProduct(name, price, el) {
@@ -221,7 +225,7 @@
             
             let total = bag.reduce((s, i) => s + parseInt(i.price.replace(/[^0-9]/g, '')), 0);
             document.getElementById('cart-total').innerText = "Rs. " + total.toLocaleString();
-            alert("Added to bag!");
+            alert(name + " added to bag!");
         }
         </script>
     </body>
